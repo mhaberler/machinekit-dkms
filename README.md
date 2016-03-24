@@ -11,6 +11,9 @@ supports out-of-tree builds (kernel headers installed, module build working - se
 ## Initial build of the debian packages:
 
 ````bash
+
+sudo apt-get install dkms
+
 git clone git://github.com/mhaberler/machinekit-dkms.git
 cd machinekit-dkms/
 # tell dkms about the new modules:
