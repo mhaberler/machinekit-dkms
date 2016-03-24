@@ -20,7 +20,7 @@ cd machinekit-dkms/
 dkms add hm2reg_uio/0.0.1
 dkms add hm2adc_uio/0.0.1
 
-# install them (builds modules, and debs):
+# install them (builds kernel modules):
 dkms install hm2reg_uio/0.0.1
 dkms install hm2adc_uio/0.0.1
 
@@ -36,7 +36,7 @@ hello                    853  0
 gpio_altera             4005  0
 autofs4                21861  1
 
-# build the debian packages:
+# now build the debian packages:
 dkms mkdeb -m hm2adc_uio -v 0.0.1
 dkms mkdeb -m hm2reg_uio -v 0.0.1
 
