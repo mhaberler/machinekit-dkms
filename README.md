@@ -90,13 +90,13 @@ apt-get install hm2adc-uio-dkms hm2reg-uio-dkms
 # Note on cross-built kernels
 
 Out-of-tree module buils require the matching `linux-headers` package to be installed into
-`/usr/src/linux-headers-<kernel version`. This tree contains not only headers but several binaries
+`/usr/src/linux-headers-<kernel version>`. This tree contains not only headers but several binaries
 which are required for module building.
 
 If the kernel was cross-built typically these binaries are compiled for the build host architecture (say amd64), and
 distributed to a target of say arm architecture. This causes module builds to fail with weird error messages, see [this post] (http://lists.openembedded.org/pipermail/openembedded-core/2012-June/063380.html) for a description.
 
-You can diagnose the issue by looking at the architecture of some binaries under `/usr/src/linux-headers-<kernel version` like so:
+You can diagnose the issue by looking at the architecture of some binaries under `/usr/src/linux-headers-<kernel version>` like so:
 
 ````bash
 # we're on an arm host
@@ -104,7 +104,7 @@ root@raspberrypi:/usr/src# arch
 armv7l
 
 # inspect important binaries
-cd `/usr/src/linux-headers-<kernel version`/scripts
+cd `/usr/src/linux-headers-<kernel version>`/scripts
 
 # these look good - note ARM architecture:
 root@raspberrypi:/usr/src/linux-headers-4.1.18-rt17-v7+/scripts# file basic/bin2c basic/fixdep kallsyms recordmcount
@@ -118,10 +118,6 @@ recordmcount: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamicall
 basic/fixdep: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=1d3b83c509da6d6365d4990becfaa421b96fe56a, stripped
 kallsyms:     ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=161872353bf7ec325a716b54499ce5b93e8abe6b, stripped
 recordmcount: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=e2fbf2e1360e0a06eb46a51f7cd2f70ebe403fe1, stripped
-
-
-file basic/bin2c
-basic/bin2c: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 2.6.32, BuildID[sha1]=d3832724ec76f419b6ef4eaaa1be41f66de480b1, not stripped
 `````
 
 The issue can be fixed as follows (ugly but works):
