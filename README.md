@@ -70,7 +70,6 @@ root@mksocfpga:~# lsmod
 Module                  Size  Used by
 hm2reg_uio              3029  0
 adcreg              	3029  0
-hello                    853  0
 autofs4                21861  1
 
 `````
