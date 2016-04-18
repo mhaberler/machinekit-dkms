@@ -15,11 +15,12 @@ supports out-of-tree builds (kernel headers installed, module build working - se
 sudo apt-get install dkms
 
 git clone git://github.com/mhaberler/machinekit-dkms.git
-cd machinekit-dkms/
+cd machinekit-dkms/drivers
 # tell dkms about the new modules:
 dkms add hm2reg_uio/0.0.1
 dkms add adcreg/0.0.1
 
+ä these steps are only 'on target' (where you actually need the kmods built)
 # install them (builds kernel modules):
 dkms install hm2reg_uio/0.0.1
 dkms install adcreg/0.0.1
@@ -35,15 +36,31 @@ hm2reg_uio              3045  0
 adcreg                  1167  0
 autofs4                22992  1
 
-# now build the debian packages:
-dkms mkdeb -m adcreg -v 0.0.1
-dkms mkdeb -m hm2reg_uio -v 0.0.1
+# for packaging, build the source-only debian packages
+# this will NOT incur a kernel module build:
+dkms mkdeb -m adcreg -v 0.0.1  --source-only
+dkms mkdeb -m hm2reg_uio -v 0.0.1 --source-only
 
 # this will leave debs like so:
 
 root@mksocfpga:~/machinekit-dkms# find /var/lib/dkms/|grep '\.deb$'
 /var/lib/dkms/adcreg/0.0.1/deb/adcreg-dkms_0.0.1_all.deb
 /var/lib/dkms/hm2reg_uio/0.0.1/deb/hm2reg-uio-dkms_0.0.1_all.deb
+
+# inspect the result - source only:
+
+machinekit-dkms/drivers# dpkg -c /var/lib/dkms/hm2reg_uio/0.0.1/deb/hm2reg-uio-dkms_0.0.1_all.deb
+drwxr-xr-x root/root         0 2016-04-18 10:06 ./
+drwxr-xr-x root/root         0 2016-04-18 10:06 ./usr/
+drwxr-xr-x root/root         0 2016-04-18 10:06 ./usr/share/
+drwxr-xr-x root/root         0 2016-04-18 10:06 ./usr/share/hm2reg_uio-dkms/
+-rwxr-xr-x root/root      9090 2016-04-18 10:06 ./usr/share/hm2reg_uio-dkms/postinst
+drwxr-xr-x root/root         0 2016-04-18 10:06 ./usr/src/
+drw-r-xr-x root/root         0 2016-04-18 09:00 ./usr/src/hm2reg_uio-0.0.1/
+-rw-r--r-- root/root      8953 2016-04-18 10:01 ./usr/src/hm2reg_uio-0.0.1/hm2reg_uio.c
+-rw-r--r-- root/root       136 2016-04-18 10:01 ./usr/src/hm2reg_uio-0.0.1/dkms.conf
+-rw-r--r-- root/root        22 2016-04-18 10:01 ./usr/src/hm2reg_uio-0.0.1/Makefile
+
 
 # upload those to the apt repo.
 
