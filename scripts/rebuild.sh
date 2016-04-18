@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+# this should become a Makefile
+
 DKMSDIR=/var/lib/dkms
 DESTDIR=debs
 DRIVERDIRS=$(ls -d1 drivers/*)
