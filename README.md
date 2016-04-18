@@ -171,8 +171,7 @@ make scripts
 
 After this building out-of-tree modules should work even with cross-built kernels.
 
-I realize this fix is super-ugly - happy to take recommendations.
-
+I realize this fix is super-ugly - happy to take recommendations
 
 Inspired-by: https://github.com/izaakschroeder/uio_pruss
 
